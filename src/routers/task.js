@@ -73,11 +73,13 @@ router.patch('/tasks/:id', auth, async (req, res) => {
     }
 
     try {
-        const task = await Task.findOne({ _id: req.params.id, owner: req.user._id })
+        const task = await Task.findOne({ _id: req.params.id, owner: req.user._id })// we r finding
+        //by user id as well bcoz when we enter a url with task id we need to make
+        //sure that, that task has been created by this user 
         if (!task) {
             return res.status(404).send()
         }
-        updates.forEach((update) => task[update] = req.body[update])
+        updates.forEach((update) => task[update] = req.body[update])// we r not using . bcoz we would have to know the property beforehand
         await task.save()
 
         res.send(task)
